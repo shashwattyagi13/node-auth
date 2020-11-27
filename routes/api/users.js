@@ -4,7 +4,7 @@ const router= express.Router();
 //means- /api/users/
 router.get('/', (req, res) => {
     return res.status(200).json({
-        success: true;
+        success: true
     })
 });
 
