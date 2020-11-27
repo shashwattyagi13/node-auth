@@ -1,17 +1,13 @@
 const express = require('express');
 const router= express.Router();
+const usersApiController = require('../../controller/api/usersApi');
 
 //means- /api/users/
-router.get('/', (req, res) => {
-    return res.status(200).json({
-        success: true
-    })
-});
-
+router.get('/', usersApiController.index); 
 //means -/api/users/login
 router.get('/login', () => {});
 
 //means -/api/users/signup
-router.get('/', () => {});
+router.get('/signup', () => {});
 
 module.exports = router;
