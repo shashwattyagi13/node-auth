@@ -1,4 +1,6 @@
 const User = require('../../model/user');
+const jwt = require('jsonwebtoken');
+const { response } = require('express');
 
 function index (req, res) {
     return res.status(200).json({
@@ -15,6 +17,9 @@ async function signup(req, res){
            error: "Password should match"
        })
    }
+
+
+
 
 if(!name || !email){
     return res.status(500).json({
@@ -61,7 +66,45 @@ try {
       });
 }
 }
+
+
+async function login (req, res) 
+{
+    const { paassword,email }=req.body;
+    try {
+        const user = await User.findOne({email : email});
+        if(!user || user.password != password){
+            return res.status(500).json({
+                error: "Invalid email or password"
+            });
+        }
+
+    const payloadForJwt ={
+        id: user.id,
+        name: user.name,
+        email: user.email
+    }
+
+
+      const JWT_SECRET = 'secret';
+      const jsonData = {
+          token: jwt.sign(payloadForJwt, JWT_SECRET, { expiresIn: '2 days'}),
+          message: 'Signed in successfully!',
+          success: true 
+     
+        }
+       return res.status(200).json(jsonData);
+
+    } catch(error) {
+        console.log("login -> error", error)
+        return res.status(500).json({
+            error: error
+        });
+    }
+}
+
 module.exports = {
     index,
-    signup
+    signup,
+    login
 }
