@@ -8,6 +8,6 @@ router.get('/', usersApiController.index);
 router.get('/login', () => {});
 
 //means -/api/users/signup
-router.get('/signup', () => {});
+router.post('/signup', sersApiController.signup);
 
 module.exports = router;
